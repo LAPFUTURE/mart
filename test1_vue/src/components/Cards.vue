@@ -1,11 +1,13 @@
  <template>
   <div class="cards">
     <div class="courseLogo">
-        <div class="courseBefore" v-bind:style="{backgroundImage: 'url('+ imgFront + ')'}" 
-        v-on:click="clickImg" id="front">
+        <div v-bind:class="{courseBefore:yes,courseAfter:no}" 
+             v-bind:style="{backgroundImage: 'url('+ imgFront + ')'}" 
+             v-on:click="clickImg" id="front">
         </div>
-        <div class="courseAfter"  v-bind:style="{backgroundImage: 'url('+ imgBack + ')'}"  
-        v-on:click="clickImg" id="back" >
+        <div v-bind:class="{courseBefore:no,courseAfter:yes}"  
+             v-bind:style="{backgroundImage: 'url('+ imgBack + ')'}"  
+             v-on:click="clickImg" id="back" >
         </div>
     </div>
         <span v-on:click="clickLeft">左</span>
@@ -22,6 +24,10 @@ export default {
 
     data () {
         return {
+        yes:true,
+        no:false,
+        
+        timeClickImg:0,//记录是否第一次点击图片
         times:0,//点击左右按钮次数，初始值为0
         
         frontColor:"black",
@@ -54,6 +60,7 @@ export default {
             this.picture  = this.pictures[0];
             this.targetFront  = this.picture[0];
             this.targetBack  =  this.picture[1];
+            this.timeClickImg = 0;
         },
         clickSpan2017(){
             this.times = 0;
@@ -61,6 +68,7 @@ export default {
             this.picture  = this.pictures[0];
             this.targetFront  = this.picture[0];
             this.targetBack  =  this.picture[1];
+            this.timeClickImg = 0;
 
         },
         clickSpanOthers(){
@@ -69,6 +77,7 @@ export default {
             this.picture  = this.pictures[0];
             this.targetFront  = this.picture[0];
             this.targetBack  =  this.picture[1];
+            this.timeClickImg = 0;
         },
         
         clickLeft(){ 
@@ -79,10 +88,12 @@ export default {
                 this.picture = this.pictures[this.times];
                 this.targetFront  = this.picture[0];//左边越界
                 this.targetBack  =  this.picture[1];
+                this.timeClickImg = 0;
             }else{
                 this.picture = this.pictures[this.times];
                 this.targetFront  = this.picture[0];//在中间
                 this.targetBack  =  this.picture[1];
+                this.timeClickImg = 0;
             }
         },
 
@@ -94,19 +105,22 @@ export default {
                 this.picture = this.pictures[this.times];
                 this.targetFront  = this.picture[0];//右边越界
                 this.targetBack  =  this.picture[1];
+                this.timeClickImg = 0;
             }else{
                 this.picture = this.pictures[this.times];
                 this.targetFront  = this.picture[0];//在中间
                 this.targetBack  =  this.picture[1];
+                this.timeClickImg = 0;
             }
         },
 
         clickImg(){
-            if(this.targetFront == this.picture[0]){//当前图片为front
-                this.targetFront = this.picture[1];
-            }else{
-                this.targetBack = this.picture[0];//当前图片为back
-            }
+                if(this.timeClickImg == 0){
+                   this.timeClickImg++;//如果是第一次点击就不让它执行else的代码块
+                }else{
+                    this.yes = !this.yes;
+                    this.no  = !this.no; //courseAfter和Before交替切换
+                }   
         },
 
     },
@@ -133,7 +147,6 @@ span{border: 1px solid black;width: 20px;}
 .courseLogo{
     width: 274px;
     height: 437px;
-
     /*float: left;
     margin-top: 1px;*/
     position: relative;
@@ -166,12 +179,14 @@ span{border: 1px solid black;width: 20px;}
     transform: rotateY(-180deg);
     backface-visibility: hidden;
     transition: 1s;
-
 }
+
  .courseLogo:hover .courseBefore{
     transform: rotateY(180deg);
 }
+
 .courseLogo:hover .courseAfter{
     transform: rotateY(0deg);
 }
+
 </style>
