@@ -1,0 +1,66 @@
+html,body{width:100%;height:100%;margin:0;padding:0;}
+.head{background-color:#666666;height: 66px}
+/*.head-time{color: #ffffff;font-size: 24px;margin-left: 8px;padding: 2px}*/
+.head-time{white-space: nowrap; text-align: left; font-size: 24px; font-weight: 400; font-style: normal; text-decoration: none; font-family: 微软雅黑; color: rgb(255, 255, 255);}
+.head-date{white-space: nowrap; text-align: left; font-size: 12px; font-weight: 400; font-style: normal; text-decoration: none; font-family: 微软雅黑; color: rgb(255, 255, 255);}
+.logo{ margin-top: 10px; }
+.head-company{white-space: nowrap; text-align: left; font-size: 20px; font-weight: 400; font-style: normal; text-decoration: none; font-family: 微软雅黑; color: rgb(255, 255, 255);}
+.head-team{white-space: nowrap; text-align: left; font-size: 16px; font-weight: 400; font-style: normal; text-decoration: none; font-family: 微软雅黑; color: rgb(255, 255, 255);}
+.el-input__inner{border-radius:10px;}
+.user-head{border-radius:50%;height: 40px;width: 40px;float: left;margin-right: 8px}
+.user-name{color: #ffffff;display:block;font-size: 12px;line-height: 20px}
+.el-menu-item.is-active {
+  background-color:#00CCCB !important;
+}
+.el-button--primary.is-plain{
+  color: #00CCCB;
+  background: #515151;
+  border-color: #00CCCB;
+}
+.form .el-input__inner{
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-radius:0
+}
+.el-menu-item-group__title{
+  padding: 0;
+}
+.el-submenu__title{
+  padding-left: 45px!important;
+}
+.el-menu-item, .el-submenu__title{
+  height: 24px;
+  line-height: 24px;
+}
+.el-submenu .el-menu-item{
+  height: 24px;
+  line-height: 24px;
+  min-width:120px;
+  padding-left: 60px!important;
+}
+.el-input__inner{
+  height:20px;
+  line-height:20px;
+}
+.el-input-number{
+  line-height:20px;
+}
+body .el-table th.gutter{
+  display: table-cell!important;
+}
+.el-table th>.cell{
+  color: #660033;
+}
+.el-table{
+  font-size:12px;
+  color: #660033;
+  font-weight:bold;
+}
+.el-dropdown-menu__item{
+  padding:0 10px!important;
+  text-align: center;
+}
+.el-input__inner{
+  border-radius:0px;
+}
