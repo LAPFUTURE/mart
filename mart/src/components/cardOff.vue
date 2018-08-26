@@ -10,7 +10,7 @@
       width="150"
       label="卡券编码">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.卡券编码}}</span>
+    <span style="color:#0080ff">{{scope.row.id}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -24,7 +24,7 @@
       width="120"
       label="礼券名称">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.礼券名称}}</span>
+    <span style="color:#0080ff">{{scope.row.code}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -33,7 +33,7 @@
       label="商品名称/条码"
        width="160">
   <template slot-scope="scope">
-    <span style="color:#00a200">{{scope.row.商品名称条形码}}</span>
+    <span style="color:#00a200">{{scope.row.good_name}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -51,7 +51,7 @@
       align="center"
       label="核销状态">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.核销状态}}</span>
+    <span style="color:#0080ff">{{scope.row.status}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -60,7 +60,7 @@
       width="100"
       label="核销渠道">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.核销渠道}}</span>
+    <span style="color:#0080ff">{{scope.row.sellload}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -79,7 +79,7 @@
       align="center"
       label="配送时段">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.配送时段}}</span>
+    <span style="color:#0080ff">{{scope.row.send_time}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -99,7 +99,7 @@
       width="120"
       label="配送单号">
   <template slot-scope="scope">
-    <span style="color:#0080ff">{{scope.row.配送单号}}</span>
+    <span style="color:#0080ff">{{scope.row.send_code}}</span>
   </template>
     </el-table-column>
     <el-table-column
@@ -192,9 +192,11 @@
 </template>
 
 <script>
+import qs from 'qs' 
   export default {
     data() {
       return {
+        checked:'',//避免报错
         dialogVisible: false,
         num:"",
       contextPath:"",
@@ -238,7 +240,7 @@
       methods:{
       getCardOffInfo:function(){
         var self=this;
-        this.$axios.post(this.contextPath + "/api/cardVerify/query",JSON.stringify(self.param)).then(function(res){
+        this.$axios.post("/api/code/public/index.php/index/Card_off/query",qs.stringify(self.param)).then(function(res){
           if(res.data.status==1){
             self.cardOffInfo=res.data
           }else{
@@ -250,12 +252,14 @@
           }
         });
       },
+      handleClose(){//避免报错
+        
+      },
       setFormData:function(row){
         var self=this;
         self.cardForm=row
       },
       handleChange(value) {
-        console.log(value);
       },
       handleCommand(command) {
         var self=this;
@@ -275,7 +279,11 @@
                 });
         }
         if(command=='4'){
-        this.$axios.post(this.contextPath + "/api/cardPublish/delete",JSON.stringify(self.cardForm.卡券编码)).then(function(res){
+          let param={
+            id:this.cardForm.id
+          }
+        this.$axios.post("/api/code/public/index.php/index/Card_off/delete",qs.stringify(param)).then(function(res){
+          console.log(res);
           if(res.data.status==1){
           self.$message({
                     showClose: true,

@@ -266,7 +266,6 @@ import qs from 'qs'
         var self=this;
         if(!pages){
           this.$axios.post("/api/code/public/index.php/index/Card_issue/query",qs.stringify(self.param)).then(function(res){
-            console.log(res);
             if(res.data.status==1){
               self.cardIssueInfo=res.data;
             }else{
@@ -279,8 +278,6 @@ import qs from 'qs'
           });
         }else{
           this.$axios.post("/api/code/public/index.php/index/Card_issue/query",qs.stringify({pages:pages,pageSize:20})).then(function(res){
-            console.log("pagesLALALA:",pages);
-            console.log(res);
             if(res.data.status==1){
               self.cardIssueInfo=res.data;
             }else{
@@ -295,8 +292,9 @@ import qs from 'qs'
       },
       editCardIssue:function(){
         var self=this;
-        self.cardForm.pay=(100-parseFloat(self.cardForm.discount))*self.cardForm.price/100
-        self.cardForm.all_pay=self.cardForm.publish_number*self.cardForm.number
+        self.cardForm.pay=(100-parseFloat(self.cardForm.discount))*self.cardForm.price/100;
+        self.cardForm.all_pay=self.cardForm.publish_number*self.cardForm.number;
+        console.log(self.cardForm);
         this.$axios.post("/api/code/public/index.php/index/Card_issue/update",qs.stringify(self.cardForm)).then(function(res){
           if(res.data.status==1){
             self.$message({
@@ -326,7 +324,7 @@ import qs from 'qs'
         }
         if(command=='2'){
         self.cardForm.激活状态="已冻结"
-        this.$axios.post(this.contextPath + "/api/cardPublish/update",qs.stringify(self.cardForm)).then(function(res){
+        this.$axios.post("/api/code/public/index.php/index/Card_issue/update",qs.stringify(self.cardForm)).then(function(res){
           if(res.data.status==1){
             self.$message({
                showClose: true,

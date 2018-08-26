@@ -194,40 +194,40 @@
       <el-form :model="cardIssueInfo" class="form">
         <el-form-item label="客户名称" label-width="120px">
           <el-col :span="24">
-          <el-input v-model="cardIssueInfo.客户名称" auto-complete="off"></el-input>
+          <el-input v-model="cardIssueInfo.client_name" auto-complete="off"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="联系电话" label-width="120px">
           <el-col :span="10">
-          <el-input v-model="cardIssueInfo.联系电话" auto-complete="off"></el-input>
+          <el-input v-model="cardIssueInfo.link_phone" auto-complete="off"></el-input>
           </el-col>
           <el-col :span="2" :offset="1">
             联系人
           </el-col>
           <el-col :span="10">
-            <el-input v-model="cardIssueInfo.联系人" auto-complete="off"></el-input>
+            <el-input v-model="cardIssueInfo.link_man" auto-complete="off"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="礼券名称" label-width="120px">
-          <el-input v-model="cardIssueInfo.礼券名称" auto-complete="off"></el-input>
+          <el-input v-model="cardIssueInfo.card_name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="礼券类型" label-width="120px">
-          <el-input v-model="cardIssueInfo.卡券类型" auto-complete="off"></el-input>
+          <el-input v-model="cardIssueInfo.type" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="发行数量" label-width="120px">
           <el-col :span="10">
-          <el-input v-model="cardIssueInfo.发行数量" auto-complete="off"> <template slot="append">份</template></el-input>
+          <el-input v-model="cardIssueInfo.publish_number" auto-complete="off"> <template slot="append">份</template></el-input>
           </el-col>
           <el-col :span="2" :offset="1">
             销售单价
           </el-col>
           <el-col :span="10">
-            <el-input v-model="cardIssueInfo.销售单价" auto-complete="off"></el-input>
+            <el-input v-model="cardIssueInfo.price" auto-complete="off"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="折扣率" label-width="120px">
           <el-col :span="10">
-          <el-input v-model="cardIssueInfo.销售折扣" auto-complete="off"> <template slot="append">%</template></el-input>
+          <el-input v-model="cardIssueInfo.discount" auto-complete="off"> <template slot="append">%</template></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="有效周期" label-width="120px">
@@ -646,6 +646,7 @@
 
     <script>
       let moment=require("moment")
+      import qs from 'qs'
       export default {
         data() {
           return {
@@ -679,20 +680,23 @@
         methods: {
           addCardIssue:function(){
             var self=this;
-            self.cardIssueInfo.发行编码=moment().format("YYYYMMDD")+self.cardIssueInfo.联系电话.substring(0,4)
-            self.cardIssueInfo.发行编码=moment().format("YYYYMMDD")+self.cardIssueInfo.联系电话.substring(0,4)
-            self.cardIssueInfo.实付单价=(100-parseFloat(self.cardIssueInfo.销售折扣))*self.cardIssueInfo.销售单价/100
-            self.cardIssueInfo.累计金额=self.cardIssueInfo.发行数量*self.cardIssueInfo.实付单价
-            self.cardIssueInfo.激活状态="已激活"
+            self.cardIssueInfo.id=moment().format("YYYYMMDD")+self.cardIssueInfo.link_phone.substring(0,4)
+            self.cardIssueInfo.id=moment().format("YYYYMMDD")+self.cardIssueInfo.link_phone.substring(0,4)
+            self.cardIssueInfo.pay=(100-parseFloat(self.cardIssueInfo.discount))*self.cardIssueInfo.price/100
+            self.cardIssueInfo.all_pay=self.cardIssueInfo.publish_number*self.cardIssueInfo.pay
+            self.cardIssueInfo.status="已激活"
             var param=self.cardIssueInfo;
-            this.$axios.post(this.contextPath + "/api/cardPublish/add",param).then(function(res){
+            this.$axios.post("/api/code/public/index.php/index/Card_issue/update",qs.stringify(param)).then(function(res){
+              console.log(res);
               if(res.data.status==1){
                 self.$message({
                           showClose: true,
                           message: '操作成功',
                           type: 'success'
                         });
-                self.dialogFormVisible=false
+                self.dialogFormVisible=false;
+                window.location.reload();
+
               }else{
             self.$message({
                       showClose: true,
